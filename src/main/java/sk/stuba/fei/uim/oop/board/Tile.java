@@ -14,8 +14,11 @@ public class Tile extends JPanel {
     private boolean highlight;
     @Getter @Setter
     private boolean playable;
+    @Getter @Setter
+    private int numberOfCaptures;
 
     public Tile() {
+        this.numberOfCaptures = 0;
         this.state = State.EMPTY;
         this.setBorder(BorderFactory.createLineBorder(Color.black));
         this.setBackground(Color.ORANGE);

@@ -20,15 +20,15 @@ public class Board extends JPanel {
         this.board = new Tile[dimension][dimension];
         this.setLayout(new GridLayout(dimension, dimension));
         for (int i = 0; i < dimension; i++) {
-            for (int j = 0; j < dimension; j++)  {
+            for (int j = 0; j < dimension; j++) {
                 this.board[i][j] = new Tile();
                 this.add(this.board[i][j]);
             }
         }
-        this.board[dimension/2][dimension/2].setState(State.BLACK);
-        this.board[dimension/2][dimension/2-1].setState(State.WHITE);
-        this.board[dimension/2-1][dimension/2].setState(State.WHITE);
-        this.board[dimension/2-1][dimension/2-1].setState(State.BLACK);
+        this.board[dimension / 2][dimension / 2].setState(State.BLACK);
+        this.board[dimension / 2][dimension / 2 - 1].setState(State.WHITE);
+        this.board[dimension / 2 - 1][dimension / 2].setState(State.WHITE);
+        this.board[dimension / 2 - 1][dimension / 2 - 1].setState(State.BLACK);
     }
 
     public ArrayList<Tile> checkPlayable(State state) {
@@ -51,37 +51,33 @@ public class Board extends JPanel {
         if (!this.board[x][y].getState().equals(State.EMPTY)) {
             return false;
         }
-        for (int nghbrX = -1; nghbrX <= 1; nghbrX++) {
-            for (int nghbrY = -1; nghbrY <= 1; nghbrY++) {
-                if (nghbrX == 0 && nghbrY == 0) {
-                    continue;
-                }
-                int checkX = x + nghbrX;
-                int checkY = y + nghbrY;
-                if (checkX >= 0 && checkY >= 0 && checkX < this.board.length && checkY < this.board.length) {
-                    if (this.board[checkX][checkY].getState().equals(State.WHITE.equals(state) ? State.BLACK : State.WHITE)) {
-                        for (int dist = 1; dist < this.board.length; dist++) {
-                            int distCheckX = x + dist * nghbrX;
-                            int distCheckY = y + dist * nghbrY;
-                            if (distCheckX < 0 || distCheckY < 0 || distCheckX >= this.board.length || distCheckY >= this.board.length) {
-                                continue;
-                            }
-                            if (this.board[distCheckX][distCheckY].getState().equals(state)) {
-                                this.board[x][y].setPlayable(true);
-                                isPlayable = true;
-                                if (placeDown) {
-                                    for (int newDist = 1; newDist <= dist; newDist++) {
-                                        int newDistCheckX = x + newDist * nghbrX;
-                                        int newDistCheckY = y + newDist * nghbrY;
-                                        this.board[newDistCheckX][newDistCheckY].setState(state);
-                                    }
-                                    this.board[x][y].setState(state);
+        this.board[x][y].setNumberOfCaptures(0);
+        for (Direction d : Direction.values()) {
+            int checkX = x + d.getX();
+            int checkY = y + d.getY();
+            if (checkX >= 0 && checkY >= 0 && checkX < this.board.length && checkY < this.board.length) {
+                if (this.board[checkX][checkY].getState().equals(State.WHITE.equals(state) ? State.BLACK : State.WHITE)) {
+                    for (int dist = 1; dist < this.board.length; dist++) {
+                        int distCheckX = x + dist * d.getX();
+                        int distCheckY = y + dist * d.getY();
+                        if (distCheckX < 0 || distCheckY < 0 || distCheckX >= this.board.length || distCheckY >= this.board.length) {
+                            continue;
+                        }
+                        if (this.board[distCheckX][distCheckY].getState().equals(state)) {
+                            this.board[x][y].setPlayable(true);
+                            this.board[x][y].setNumberOfCaptures(this.board[x][y].getNumberOfCaptures() + dist - 1);
+                            isPlayable = true;
+                            if (placeDown) {
+                                for (int newDist = 1; newDist <= dist; newDist++) {
+                                    int newDistCheckX = x + newDist * d.getX();
+                                    int newDistCheckY = y + newDist * d.getY();
+                                    this.board[newDistCheckX][newDistCheckY].setState(state);
                                 }
+                                this.board[x][y].setState(state);
                             }
                         }
                     }
                 }
-
             }
         }
         return isPlayable;
@@ -90,7 +86,7 @@ public class Board extends JPanel {
     public void findTile(Tile tile, State state) {
         for (int x = 0; x < this.board.length; x++) {
             for (int y = 0; y < this.board.length; y++) {
-                if (Objects.equals(this.board[x][y], tile))  {
+                if (Objects.equals(this.board[x][y], tile)) {
                     this.checkNeighbours(x, y, state, true);
                     break;
                 }

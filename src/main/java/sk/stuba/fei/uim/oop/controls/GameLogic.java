@@ -6,11 +6,13 @@ import sk.stuba.fei.uim.oop.board.State;
 import sk.stuba.fei.uim.oop.board.Tile;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.Random;
+import java.util.Comparator;
 
 public class GameLogic extends UniversalAdapter {
 
@@ -19,15 +21,19 @@ public class GameLogic extends UniversalAdapter {
     private Board currentBoard;
     @Getter
     private JLabel label;
-    private Random random;
+    @Getter
+    private JLabel boardSizeLabel;
+    private int currentBoardSize;
 
     public GameLogic(JFrame mainGame) {
         this.mainGame = mainGame;
-        this.random = new Random();
-        this.initializeNewBoard(INITIAL_BOARD_SIZE);
+        this.currentBoardSize = INITIAL_BOARD_SIZE;
+        this.initializeNewBoard(this.currentBoardSize);
         this.mainGame.add(this.currentBoard);
         this.label = new JLabel();
+        this.boardSizeLabel = new JLabel();
         this.updateNameLabel();
+        this.updateBoardSizeLabel();
     }
 
     private void updateNameLabel() {
@@ -36,9 +42,15 @@ public class GameLogic extends UniversalAdapter {
         this.mainGame.repaint();
     }
 
+    private void updateBoardSizeLabel() {
+        this.boardSizeLabel.setText("CURRENT BOARD SIZE: " + this.currentBoardSize);
+        this.mainGame.revalidate();
+        this.mainGame.repaint();
+    }
+
     private void gameRestart() {
         this.mainGame.remove(this.currentBoard);
-        this.initializeNewBoard(INITIAL_BOARD_SIZE);
+        this.initializeNewBoard(this.currentBoardSize);
         this.mainGame.add(this.currentBoard);
         this.updateNameLabel();
     }
@@ -92,8 +104,8 @@ public class GameLogic extends UniversalAdapter {
     private void simulateRandomPlay() {
         ArrayList<Tile> playable = this.currentBoard.checkPlayable(State.WHITE);
         if (playable.size() > 0) {
-            int random = this.random.nextInt(playable.size());
-            this.currentBoard.findTile(playable.get(random), State.WHITE);
+            playable.sort(Comparator.comparingInt(Tile::getNumberOfCaptures).reversed());
+            this.currentBoard.findTile(playable.get(0), State.WHITE);
         }
     }
 
@@ -113,4 +125,24 @@ public class GameLogic extends UniversalAdapter {
         }
         return playableBlack.size() == 0 && playableWhite.size() == 0;
     }
+
+    @Override
+    public void stateChanged(ChangeEvent e) {
+        this.currentBoardSize = ((JSlider) e.getSource()).getValue();
+        this.updateBoardSizeLabel();
+        this.gameRestart();
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        System.out.println(e);
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_R:
+                this.gameRestart();
+                break;
+            case KeyEvent.VK_ESCAPE:
+                this.mainGame.dispose();
+        }
+    }
+
 }
