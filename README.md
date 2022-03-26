@@ -32,7 +32,7 @@ Zdroj:
 
 [Hra samotná](https://cardgames.io/reversi/)
 ## Požiadavky
-Hru hrá jeden hráč proti počítaču. Môžete sa rozhodnúť, ktorá farba patrí hráčovy a ktorá počítaču. Počítač môže hrať dvoma spôsobmi:
+Hru hrá jeden hráč proti počítaču. Môžete sa rozhodnúť, ktorá farba patrí hráčovi a ktorá počítaču. Počítač môže hrať dvoma spôsobmi:
 
 * Náhodný ťah z možných ťahov (Penalizácia 1 bod)
 * Ťah, ktorým zajme súperovi najviac kameňov (Ak je takýchto ťahov viac môžete medzi nimi rozhodnúť ľubovoľným spôsobom)
@@ -66,7 +66,7 @@ Niektoré z vecí, za ktoré sme minulý rok strhli po 0,5 - 1 bode:
 
 * Po spustení je okno prázdne, vykreslí sa až po resize
 * Nie je nastavená počiatočná velkosť okna
-* Nie je naimplementovaný niektorí z listenerov
+* Nie je naimplementovaný niektorý z listenerov
 * Nefunguje reset
 * Chybné vykreslovanie
 * Neodchytené exceptions
@@ -74,7 +74,7 @@ Niektoré z vecí, za ktoré sme minulý rok strhli po 0,5 - 1 bode:
 * Nesprávna detekcia výhry
 * Kód v main metóde
 * Nevyužitie OOP princípov
-* Po resete prestane fungovať niektorí s listenerov
+* Po resete prestane fungovať niektorý z listenerov
 * Otvaranie noveho okna pri resete
 * Listenery ako Nested Triedy
 * Hra sa nedá dohrať
@@ -90,7 +90,7 @@ Skontrolujte si, či sa váš repozitár nachádza pod skupinov **Interes-Group*
 
 V projekte upravujte iba súbory v priečinku _src/main_ a jeho podpriečinkoch. Ostatné súbory je upravovať zakázané (predovšetkým súbory _pom.xml_, súbory obsahujúce github pipeline-y a súbory obsahujúce automatizované testy).
 
-Vo svojom github účte si nastavte svoje meno alebo AIS login (settings > profile > name), aby bolo možné priradiť riešenie ku študentovy. **Pokiaľ nebude možné spárovať študenta s riešením je zadanie hodnotené 0 bodmi!**
+Vo svojom github účte si nastavte svoje meno alebo AIS login (settings > profile > name), aby bolo možné priradiť riešenie ku študentovi. **Pokiaľ nebude možné spárovať študenta s riešením je zadanie hodnotené 0 bodmi!**
 
 # Assignment 2 - Reversi
 B-OOP 2022
@@ -110,7 +110,7 @@ The game is also known as Othello. The game starts with a board of 6x6 tiles, th
 The goal of the game is to have more stones on the board than your opponent. The game ends if all tiles are occupied by stones, or if neither player can play a valid move.
 
 ### Placing the stones
-The player places a stone of their color onto the board on their turn. The stone must be placed in such a way, that it captures at leas one stone of their opponent. If a player cannot capture a stone with any available move, the pass their turn.
+The player places a stone of their color onto the board on their turn. The stone must be placed in such a way, that it captures at least one stone of their opponent. If a player cannot capture a stone with any available move, they pass their turn.
 The game begins with 4 stones placed on the board, two stones belong to the white and two stones belong to the black player (see picture above).
 
 ### Capturing stones
