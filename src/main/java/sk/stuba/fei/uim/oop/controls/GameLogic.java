@@ -66,6 +66,8 @@ public class GameLogic extends UniversalAdapter {
         this.gameRestart();
         this.mainGame.revalidate();
         this.mainGame.repaint();
+        this.mainGame.setFocusable(true);
+        this.mainGame.requestFocus();
     }
 
     @Override
@@ -131,6 +133,8 @@ public class GameLogic extends UniversalAdapter {
         this.currentBoardSize = ((JSlider) e.getSource()).getValue();
         this.updateBoardSizeLabel();
         this.gameRestart();
+        this.mainGame.setFocusable(true);
+        this.mainGame.requestFocus();
     }
 
     @Override
