@@ -63,6 +63,9 @@ public class Board extends JPanel {
                         if (distCheckX < 0 || distCheckY < 0 || distCheckX >= this.board.length || distCheckY >= this.board.length) {
                             continue;
                         }
+                        if (this.board[distCheckX][distCheckY].getState().equals(State.EMPTY)) {
+                            break;
+                        }
                         if (this.board[distCheckX][distCheckY].getState().equals(state)) {
                             this.board[x][y].setPlayable(true);
                             this.board[x][y].setNumberOfCaptures(this.board[x][y].getNumberOfCaptures() + dist - 1);
