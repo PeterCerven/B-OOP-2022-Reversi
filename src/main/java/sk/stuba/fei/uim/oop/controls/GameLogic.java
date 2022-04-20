@@ -76,7 +76,9 @@ public class GameLogic extends UniversalAdapter {
         if (!(current instanceof Tile)) {
             return;
         }
-        ((Tile) current).setHighlight(true);
+        if (((Tile) current).isPlayable()) {
+            ((Tile) current).setHighlight(true);
+        }
         this.currentBoard.repaint();
     }
 
